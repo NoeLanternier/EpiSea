@@ -88,12 +88,16 @@ export default function Home() {
         <>
         <div
             style={{
+                backgroundImage: '/assets/sky.jpg',
                 backgroundColor:'white',
                 minHeight:'30vh',
                 display:'flex',
                 justifyContent:'center',
                 alignItems:'flex-end',
-                paddingLeft:'10vh'
+                paddingLeft:'10vh',
+                borderBottom: "4px solid black",
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
             }}
         >
             <div
@@ -105,23 +109,30 @@ export default function Home() {
                     color: 'white',
                     padding: '10px',
                     borderRadius: '5px',
-                    fontSize: '18px'
+                    fontSize: '18px',
                 }}
             >
                 Score: {score}
             </div>
-            <div
+            <img
+                src='/assets/iglou.png'
                 style={{
-                    borderRadius:'50%',
-                    backgroundColor:'green',
-                    width:'5vh',
-                    height:'5vh'
+                    width:'10vh',
+                    height:'10vh',
+                    marginRight: '60vh'
                 }}
-            ></div>
+            ></img>
+            <img
+                src='/assets/pole-nord.png'
+                style={{
+                    width:'10vh',
+                    height:'10vh',
+                }}
+            ></img>
         </div>
         <div
             style={{
-                backgroundColor:'#3987c9',
+                background: "linear-gradient(#1CB5E0 0%, #000851 100%)",
                 minHeight:'70vh',
                 position: 'relative'
             }}
