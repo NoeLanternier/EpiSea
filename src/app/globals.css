@@ -19,3 +19,9 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.background {
+  background: linear-gradient(180deg, #66b2ff, #3399ff, #0066cc, #003366, #001933, #000d1a);
+  height: 100vh;
+  width: 100vw;
+}
