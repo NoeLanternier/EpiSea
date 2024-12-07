@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback } from 'react';
 
 function Home() {
@@ -8,30 +10,34 @@ function Home() {
     const [score, setScore] = useState(0);
 
     useEffect(() => {
-        setTrashs((trashBins) =>
-            trashBins.map((trash) => ({
-                ...trash,
-                top: Math.random() * (window.innerHeight * 0.7)
-            }))
-        );
+        if (typeof window !== 'undefined') {
+            setTrashs((trashBins) =>
+                trashBins.map((trash) => ({
+                    ...trash,
+                    top: Math.random() * (window.innerHeight * 0.7)
+                }))
+            );
+        }
     }, []);
 
     const moveTrash = useCallback(() => {
-        setTrashs((trashBins) =>
-            trashBins.map((trash) => {
-                let newStart = trash.start + trash.speed;
-                let newTop = trash.isGrabed ? trash.top - 5 : trash.top;
-                if (newTop <= 0) {
-                    newStart = 0;
-                    newTop = Math.random() * (window.innerHeight * 0.7);
-                    setScore((prevScore) => prevScore + 1);
-                }
-                if (newStart > (window.innerWidth - (0.12 * window.innerWidth / 2))) {
-                    newStart = 0;
-                }
-                return { ...trash, start: newStart, top: newTop };
-            })
-        );
+        if (typeof window !== 'undefined') {
+            setTrashs((trashBins) =>
+                trashBins.map((trash) => {
+                    let newStart = trash.start + trash.speed;
+                    let newTop = trash.isGrabed ? trash.top - 5 : trash.top;
+                    if (newTop <= 0) {
+                        newStart = 0;
+                        newTop = Math.random() * (window.innerHeight * 0.7);
+                        setScore((prevScore) => prevScore + 1);
+                    }
+                    if (newStart > (window.innerWidth - (0.12 * window.innerWidth / 2))) {
+                        newStart = 0;
+                    }
+                    return { ...trash, start: newStart, top: newTop };
+                })
+            );
+        }
     }, []);
 
     const handleMouseEnter = (index: number) => {
