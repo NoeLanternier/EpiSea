@@ -1,44 +1,59 @@
-"use client";
+'use client';
+import React, { useState } from "react";
+import { useCallback } from "react";
 
-import { useState, useEffect, useCallback } from 'react';
+function CreateTrash(
+    width: number,
+    height: number,
+    image: string,
+    start: number,
+    top: number,
+    handleMouseEnter: () => void,
+    handleMouseLeave: () => void
+) {
+    return <img
+        src={image}
+        style={{
+            position: 'absolute',
+            width: width.toString() + 'vh',
+            height: height.toString() + 'vh',
+            left: start,
+            top: top,
+            rotate: image == "/assets/bouteille-en-verre.png" ? "0deg" : "-60deg"
+        }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+    ></img>
+}
 
-function Home() {
+export default function Home() {
     const [trashs, setTrashs] = useState([
-        {start: 0, top: 0, speed: 5, isGrabed: false, image: "/assets/leau.png"},
-        {start: 0, top: 0, speed: 7, isGrabed: false, image: "/assets/bouteille-en-verre.png"}
-    ]);
-    const [score, setScore] = useState(0);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            setTrashs((trashBins) =>
-                trashBins.map((trash) => ({
-                    ...trash,
-                    top: Math.random() * (window.innerHeight * 0.7)
-                }))
-            );
-        }
-    }, []);
+        {start: 0, top: Math.random() * (window.innerHeight * 0.7), speed: 5, isGrabed: false, image: "/assets/leau.png"},
+        {start: 0, top: Math.random() * (window.innerHeight * 0.7), speed: 7, isGrabed: false, image: "/assets/bouteille-en-verre.png"}
+    ])
+    const [score, setScore] = useState(0)
 
     const moveTrash = useCallback(() => {
-        if (typeof window !== 'undefined') {
-            setTrashs((trashBins) =>
-                trashBins.map((trash) => {
-                    let newStart = trash.start + trash.speed;
-                    let newTop = trash.isGrabed ? trash.top - 5 : trash.top;
-                    if (newTop <= 0) {
-                        newStart = 0;
-                        newTop = Math.random() * (window.innerHeight * 0.7);
-                        setScore((prevScore) => prevScore + 1);
-                    }
-                    if (newStart > (window.innerWidth - (0.12 * window.innerWidth / 2))) {
-                        newStart = 0;
-                    }
-                    return { ...trash, start: newStart, top: newTop };
-                })
-            );
-        }
+        setTrashs((trashBins) =>
+            trashBins.map((trash) => {
+                let newStart = trash.start + trash.speed;
+                let newTop = trash.isGrabed ? trash.top - 5 : trash.top;
+
+                if (newTop <= 0) {
+                    newStart = 0;
+                    newTop = Math.random() * (window.innerHeight * 0.7);
+                    setScore((prevScore) => prevScore + 1);
+                }
+
+                if (newStart > (window.innerWidth - (0.12 * window.innerWidth / 2))) {
+                    newStart = 0;
+                }
+
+                return { ...trash, start: newStart, top: newTop };
+            })
+        );
     }, []);
+
 
     const handleMouseEnter = (index: number) => {
         setTrashs((prevTrashBins) =>
@@ -46,7 +61,7 @@ function Home() {
                 if (i === index)
                     return { ...trash, isGrabed: true };
                 else
-                    return trash;
+                    return trash
             })
         );
     };
@@ -57,12 +72,12 @@ function Home() {
                 if (i === index)
                     return { ...trash, isGrabed: false };
                 else
-                    return trash;
+                    return trash
             })
         );
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         const interval = setInterval(() => {
             moveTrash();
         }, 20);
@@ -73,31 +88,70 @@ function Home() {
         <>
         <div
             style={{
-                position: 'relative',
-                width: '100%',
-                height: '100vh',
-                overflow: 'hidden',
+                backgroundImage: '/assets/sky.jpg',
+                backgroundColor:'white',
+                minHeight:'30vh',
+                display:'flex',
+                justifyContent:'center',
+                alignItems:'flex-end',
+                paddingLeft:'10vh',
+                borderBottom: "4px solid black",
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
             }}
         >
-            {trashs.map((trash, index) => (
-                <img
-                    key={index}
-                    src={trash.image}
-                    style={{
-                        position: 'absolute',
-                        left: trash.start,
-                        top: trash.top,
-                        width: '10%',
-                        height: 'auto',
-                    }}
-                    onMouseEnter={() => handleMouseEnter(index)}
-                    onMouseLeave={() => handleMouseLeave(index)}
-                />
-            ))}
+            <div
+                style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    color: 'white',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    fontSize: '18px',
+                }}
+            >
+                Score: {score}
+            </div>
+            <img
+                src='/assets/iglou.png'
+                style={{
+                    width:'10vh',
+                    height:'10vh',
+                    marginRight: '60vh'
+                }}
+            ></img>
+            <img
+                src='/assets/pole-nord.png'
+                style={{
+                    width:'10vh',
+                    height:'10vh',
+                }}
+            ></img>
         </div>
-        <div>Score: {score}</div>
+        <div
+            style={{
+                background: "linear-gradient(#1CB5E0 0%, #000851 100%)",
+                minHeight:'70vh',
+                position: 'relative'
+            }}
+            >
+                {trashs.map((trash, index) =>
+                    <React.Fragment key={index}>
+                    {CreateTrash(
+                        10,
+                        10,
+                        trash.image,
+                        trash.start,
+                        trash.top,
+                        () => handleMouseEnter(index),
+                        () => handleMouseLeave(index)
+                    )}
+                </React.Fragment>
+                )}
+        </div>
         </>
     );
-}
+  }
 
-export default Home;
