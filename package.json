@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "gh-pages": "^6.2.0"
+  },
+  "scripts": {
+    "deploy": "next build && next export && touch out/.nojekyll && gh-pages -d out"
   }
 }
