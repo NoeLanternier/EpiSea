@@ -1,10 +1,10 @@
 'use client'
-import {React, useEffect, useState} from "react";
+import { useEffect, useState} from "react";
 import './infos.css';
 
 export default function Home() {
   const [start, setStart] = useState(0)
-  function buttonAlert(url) {
+  function buttonAlert(url: string) {
     open(url)
   }
     return (
@@ -21,7 +21,9 @@ export default function Home() {
   );
 }
 
-const container = {
+import { CSSProperties } from 'react';
+
+const container: CSSProperties = {
   display: "flex",
   flexDirection: "column",
   minHeight: "1%",
