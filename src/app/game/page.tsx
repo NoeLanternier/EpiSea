@@ -55,6 +55,10 @@ export default function Home() {
                     newTop = Math.random() * (window.innerHeight * 0.7);
                     setScore((prevScore) => prevScore + 1);
                 }
+                if (newStart >= window.innerWidth - (trash.image.length * 5)) {
+                    newStart = 0;
+                    newTop = Math.random() * (window.innerHeight * 0.7);
+                }
 
                 return { ...trash, start: newStart, top: newTop };
             })
